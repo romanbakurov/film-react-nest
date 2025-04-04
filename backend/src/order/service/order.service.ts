@@ -14,7 +14,7 @@ export class OrderService {
 
   async orderTickets(
     createOrder: OrderDto,
-  ): Promise<{ total: number; tickets: TicketDto[] }> {
+  ): Promise<{ total: number; items: TicketDto[] }> {
     const { tickets } = createOrder;
 
     const order = new this.orderModel({ total: tickets.length, tickets });
@@ -40,7 +40,7 @@ export class OrderService {
     }
 
     return order.save().then((doc) => {
-      return { total: doc.tickets.length, tickets: doc.tickets };
+      return { total: doc.tickets.length, items: doc.tickets };
     });
   }
 }
