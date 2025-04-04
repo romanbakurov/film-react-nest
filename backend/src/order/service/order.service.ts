@@ -39,6 +39,7 @@ export class OrderService {
       await film.save();
     }
 
+    // Сохранить заказ и вернуть JSON
     return order.save().then((doc) => {
       return { total: doc.tickets.length, items: doc.tickets };
     });
