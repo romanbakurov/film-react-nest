@@ -5,10 +5,13 @@ import * as path from 'node:path';
 
 import { configProvider } from './app.config.provider';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Film, FilmSchema } from './films/schemas/film.schema';
+import { Film, FilmsSchema } from './films/schemas/films.schema';
 import { FilmsController } from './films/controller/films.controller';
 import { FilmsRepository } from './repository/films.repository';
 import { FilmsService } from './films/service/films.service';
+import { OrderController } from './order/controlerr/order.controller';
+import { OrderService } from './order/service/order.service';
+import { Order, OrderSchema } from './order/schemas/order.schema';
 
 @Module({
   imports: [
@@ -22,9 +25,12 @@ import { FilmsService } from './films/service/films.service';
       renderPath: '/content/afisha/',
     }),
     MongooseModule.forRoot(process.env.DATABASE_URL),
-    MongooseModule.forFeature([{ name: Film.name, schema: FilmSchema }]),
+    MongooseModule.forFeature([
+      { name: Film.name, schema: FilmsSchema },
+      { name: Order.name, schema: OrderSchema },
+    ]),
   ],
-  controllers: [FilmsController],
-  providers: [configProvider, FilmsService, FilmsRepository],
+  controllers: [FilmsController, OrderController],
+  providers: [configProvider, FilmsService, FilmsRepository, OrderService],
 })
 export class AppModule {}

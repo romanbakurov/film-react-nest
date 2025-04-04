@@ -61,4 +61,4 @@ export class Film {
   schedule: Schedule[];
 }
 
-export const FilmSchema = SchemaFactory.createForClass(Film);
+export const FilmsSchema = SchemaFactory.createForClass(Film);

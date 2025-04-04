@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { GetFilmDTO } from '../films/dto/films.dto';
-import { Film, FilmDocument } from '../films/schemas/film.schema';
+import { Film, FilmDocument } from '../films/schemas/films.schema';
 
 @Injectable()
 export class FilmsRepository {
