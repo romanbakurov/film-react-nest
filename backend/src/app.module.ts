@@ -3,7 +3,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'node:path';
 
-import { appConfig, configProvider } from './app.config.provider';
+import { appConfig } from './app.config.provider';
 import { FilmsController } from './films/controller/films.controller';
 import { FilmsRepository } from './films.repository/films.repository';
 import { FilmsService } from './films/service/films.service';
@@ -29,7 +29,6 @@ import { OrdersEntity } from './order/entities/Orders.entity';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: appConfig.DATABASE_HOST,
-      url: appConfig.DATABASE_URL,
       port: +appConfig.DATABASE_PORT,
       username: appConfig.DATABASE_USERNAME,
       password: appConfig.DATABASE_PASSWORD,
@@ -40,12 +39,6 @@ import { OrdersEntity } from './order/entities/Orders.entity';
     TypeOrmModule.forFeature([FilmsEntity, ScheduleEntity, OrdersEntity]),
   ],
   controllers: [FilmsController, OrderController],
-  providers: [
-    configProvider,
-    FilmsService,
-    FilmsRepository,
-    OrderService,
-    OrdersRepository,
-  ],
+  providers: [FilmsService, FilmsRepository, OrderService, OrdersRepository],
 })
 export class AppModule {}
