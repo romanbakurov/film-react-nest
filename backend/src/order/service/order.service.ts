@@ -1,14 +1,13 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Order } from '../schemas/order.schema';
-import { Model } from 'mongoose';
-import { FilmsRepository } from '../../repository/films.repository';
+import { FilmsRepository } from '../../films.repository/films.repository';
 import { OrderDto, TicketDto } from '../dto/order.dto';
+import { OrdersRepository } from '../../orders.repository/orders.repository';
+import { OrdersEntity } from '../entities/Orders.entity';
 
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectModel(Order.name) private readonly orderModel: Model<Order>,
+    private readonly ordersRepository: OrdersRepository,
     private readonly filmsRepository: FilmsRepository,
   ) {}
 
@@ -16,8 +15,6 @@ export class OrderService {
     createOrder: OrderDto,
   ): Promise<{ total: number; items: TicketDto[] }> {
     const { tickets } = createOrder;
-
-    const order = new this.orderModel({ total: tickets.length, tickets });
 
     for (const ticket of tickets) {
       const { film: filmId, session: sessionId, row, seat, daytime } = ticket;
@@ -35,12 +32,26 @@ export class OrderService {
       }
 
       // Добавить место в список занятых мест
-      session.taken.push(seatKey);
-      await film.save();
+      const seatIndex = [...session.taken];
+      seatIndex.push(seatKey);
+      seatIndex.push(String(Number(seatKey) + 1));
+
+      // Сохранить занятые места
+      session.taken = seatIndex.join(',');
+
+      // session.taken = session.taken.slice(0, seatIndex);
+
+      await this.filmsRepository.saveFilm(film);
+      await this.filmsRepository.findAll();
     }
 
     // Сохранить заказ и вернуть JSON
-    return order.save().then((doc) => {
+    const order = new OrdersEntity();
+    order.email = createOrder.email;
+    order.phone = createOrder.phone;
+    order.tickets = tickets;
+
+    return this.ordersRepository.createOrder(order).then((doc) => {
       return { total: doc.tickets.length, items: doc.tickets };
     });
   }
