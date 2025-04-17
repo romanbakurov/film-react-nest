@@ -30,6 +30,7 @@ import { OrdersEntity } from './order/entities/Orders.entity';
       type: 'postgres',
       host: appConfig.DATABASE_HOST,
       port: +appConfig.DATABASE_PORT,
+      url: appConfig.DATABASE_URL,
       username: appConfig.DATABASE_USERNAME,
       password: appConfig.DATABASE_PASSWORD,
       database: appConfig.DATABASE_NAME,
