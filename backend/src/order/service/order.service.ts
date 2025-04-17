@@ -49,7 +49,7 @@ export class OrderService {
     const order = new OrdersEntity();
     order.email = createOrder.email;
     order.phone = createOrder.phone;
-    order.tickets = tickets;
+    order.tickets = createOrder.tickets;
 
     return this.ordersRepository.createOrder(order).then((doc) => {
       return { total: doc.tickets.length, items: doc.tickets };

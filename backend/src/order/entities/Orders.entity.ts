@@ -3,7 +3,7 @@ import { TicketDto } from '../dto/order.dto';
 
 @Entity('orders')
 export class OrdersEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -13,5 +13,14 @@ export class OrdersEntity {
   phone: string;
 
   @Column('jsonb')
-  tickets: TicketDto[];
+  tickets: Array<{
+    film: string;
+    session: string;
+    daytime: string;
+    day: string;
+    time: string;
+    row: number;
+    seat: number;
+    price: number;
+  }>;
 }
