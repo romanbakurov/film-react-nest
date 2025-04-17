@@ -29,6 +29,7 @@ import { OrdersEntity } from './order/entities/Orders.entity';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: appConfig.DATABASE_HOST,
+      url: appConfig.DATABASE_URL,
       port: +appConfig.DATABASE_PORT,
       username: appConfig.DATABASE_USERNAME,
       password: appConfig.DATABASE_PASSWORD,
