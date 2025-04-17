@@ -1,23 +1,23 @@
-// import { ConfigModule } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 
 export const appConfig = process.env;
 
-// export const configProvider = {
-//   imports: [ConfigModule.forRoot()],
-//   provide: 'CONFIG',
-//   useValue: <AppConfig>{
-//     database: {
-//       driver: appConfig.DATABASE_DRIVER || 'postgres',
-//       url: appConfig.DATABASE_URL || 'postgresql://localhost',
-//     },
-//   },
-// };
-//
-// export interface AppConfig {
-//   database: AppConfigDatabase;
-// }
-//
-// export interface AppConfigDatabase {
-//   driver: string;
-//   url: string;
-// }
+export const configProvider = {
+  imports: [ConfigModule.forRoot()],
+  provide: 'CONFIG',
+  useValue: <AppConfig>{
+    database: {
+      driver: appConfig.DATABASE_DRIVER || 'postgres',
+      url: appConfig.DATABASE_URL || 'postgresql://localhost:5432/prac',
+    },
+  },
+};
+
+export interface AppConfig {
+  database: AppConfigDatabase;
+}
+
+export interface AppConfigDatabase {
+  driver: string;
+  url: string;
+}
