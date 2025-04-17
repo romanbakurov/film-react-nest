@@ -13,14 +13,5 @@ export class OrdersEntity {
   phone: string;
 
   @Column('jsonb')
-  tickets: Array<{
-    film: string;
-    session: string;
-    daytime: string;
-    day: string;
-    time: string;
-    row: number;
-    seat: number;
-    price: number;
-  }>;
+  tickets: TicketDto[];
 }

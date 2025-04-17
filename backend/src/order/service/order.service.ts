@@ -34,12 +34,9 @@ export class OrderService {
       // Добавить место в список занятых мест
       const seatIndex = [...session.taken];
       seatIndex.push(seatKey);
-      seatIndex.push(String(Number(seatKey) + 1));
 
       // Сохранить занятые места
       session.taken = seatIndex.join(',');
-
-      // session.taken = session.taken.slice(0, seatIndex);
 
       await this.filmsRepository.saveFilm(film);
       await this.filmsRepository.findAll();
