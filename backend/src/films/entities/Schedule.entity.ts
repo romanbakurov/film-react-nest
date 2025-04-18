@@ -1,10 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { IsNumber, IsString } from 'class-validator';
 import { FilmsEntity } from './Films.entity';
 
@@ -17,7 +11,7 @@ export class ScheduleEntity {
   @IsString()
   daytime: string;
 
-  @Column({ nullable: true })
+  @Column()
   @IsString()
   hall: string;
 
@@ -29,14 +23,13 @@ export class ScheduleEntity {
   @IsNumber()
   seats: number;
 
-  @Column({ nullable: true })
+  @Column()
   @IsNumber()
   price: number;
 
-  @Column({ type: 'simple-array', default: '' })
+  @Column()
   taken: string;
 
   @ManyToOne(() => FilmsEntity, (film) => film.schedule)
-  @JoinColumn()
   film: FilmsEntity;
 }

@@ -7,7 +7,7 @@ export class FilmsEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column({ nullable: true })
+  @Column()
   @IsNumber()
   rating: number;
 
@@ -15,7 +15,7 @@ export class FilmsEntity {
   @IsString()
   director: string;
 
-  @Column('text', { array: true, nullable: true, default: [] })
+  @Column('text', { array: true, default: [] })
   @IsArray()
   tags: string[];
 
