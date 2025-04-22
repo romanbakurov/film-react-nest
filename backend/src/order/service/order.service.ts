@@ -32,14 +32,13 @@ export class OrderService {
       }
 
       // Добавить место в список занятых мест
-      const seatIndex = [...session.taken];
+      const seatIndex = session.taken.split(',');
+      // Добавьте новый ключ к месту
       seatIndex.push(seatKey);
-
-      // Сохранить занятые места
+      // Join back to a string for saving
       session.taken = seatIndex.join(',');
 
       await this.filmsRepository.saveFilm(film);
-      await this.filmsRepository.findAll();
     }
 
     // Сохранить заказ и вернуть JSON
