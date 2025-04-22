@@ -30,6 +30,10 @@ export class ScheduleEntity {
   @Column()
   taken: string;
 
-  @ManyToOne(() => FilmsEntity, (film) => film.schedule, { cascade: true })
+  @ManyToOne(() => FilmsEntity, (film) => film.schedule, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   film: FilmsEntity;
 }
