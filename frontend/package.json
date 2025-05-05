@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "component": "sh ./bin/copy.sh Component src/components"
+    "component": "sh ./bin/copy.sh Component src/components",
+    "deploy": "npm run build && scp -Сr ./build/* rio@158.160.169.47:/home/rio/film-react-nest/frontend"
   },
   "dependencies": {
     "clsx": "^2.1.1",
