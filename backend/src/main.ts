@@ -33,7 +33,9 @@ async function bootstrap() {
     });
     app.setGlobalPrefix('api/afisha');
     app.enableCors();
-    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalPipes(
+      new ValidationPipe({ whitelist: true, transform: true }),
+    );
 
     await app.listen(3000);
     logger.log(`Application is running on: ${await app.getUrl()}`);

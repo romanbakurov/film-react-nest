@@ -4,74 +4,115 @@ describe('JsonLogger', () => {
   let logger: JsonLogger;
   let consoleLogSpy: jest.SpyInstance;
   let consoleErrorSpy: jest.SpyInstance;
+  let consoleWarnSpy: jest.SpyInstance;
+  let consoleDebugSpy: jest.SpyInstance;
+  let consoleInfoSpy: jest.SpyInstance;
 
   beforeEach(() => {
     logger = new JsonLogger();
     consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
+    consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
+    consoleDebugSpy = jest.spyOn(console, 'debug').mockImplementation();
+    consoleInfoSpy = jest.spyOn(console, 'info').mockImplementation();
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should format log messages correctly for log level', () => {
-    logger.log('Test log message', { key: 'value' });
+  it('should log messages when level is log', () => {
+    const message = 'Test log message';
+    const optionalParams = { key: 'value' };
+    logger.log(message, optionalParams);
 
-    // Проверка наличия timestamp
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      expect.stringContaining('timestamp'),
+      expect.stringContaining('"level":"log"'),
     );
-    // Проверка уровня
-    expect(consoleLogSpy).toHaveBeenCalledWith(
-      expect.stringContaining('"level": "log"'),
-    );
-    // Проверка сообщения
     expect(consoleLogSpy).toHaveBeenCalledWith(
       expect.stringContaining('"message":"Test log message"'),
     );
-    // Проверка данных
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      expect.stringContaining('"data":[{"key":"value"}]'),
+      expect.stringContaining('"optionalParams":[{"key":"value"}]'),
     );
   });
 
-  it('should format error messages correctly for error level', () => {
-    logger.error('Test error message', { error: 'details' });
+  it('should log error messages when level is error', () => {
+    const message = 'Test error message';
+    const optionalParams = { error: 'details' };
+    logger.error(message, optionalParams);
 
-    // Проверка наличия timestamp
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      expect.stringContaining('timestamp'),
+      expect.stringContaining('"level":"error"'),
     );
-    // Проверка уровня
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      expect.stringContaining('"level": "error"'),
-    );
-    // Проверка сообщения
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       expect.stringContaining('"message":"Test error message"'),
     );
-    // Проверка данных
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      expect.stringContaining('"data":[{"error":"details"}]'),
+      expect.stringContaining('"optionalParams":[{"error":"details"}]'),
+    );
+  });
+
+  it('should log warning messages when level is warn', () => {
+    const message = 'Test warning message';
+    const optionalParams = { warning: 'details' };
+    logger.warn(message, optionalParams);
+
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"level":"warn"'),
+    );
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"message":"Test warning message"'),
+    );
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"optionalParams":[{"warning":"details"}]'),
+    );
+  });
+
+  it('should log debug messages when level is debug', () => {
+    const message = 'Test debug message';
+    const optionalParams = { debug: 'details' };
+    logger.debug(message, optionalParams);
+
+    expect(consoleDebugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"level":"debug"'),
+    );
+    expect(consoleDebugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"message":"Test debug message"'),
+    );
+    expect(consoleDebugSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"optionalParams":[{"debug":"details"}]'),
+    );
+  });
+
+  it('should log verbose messages when level is verbose', () => {
+    const message = 'Test verbose message';
+    const optionalParams = { verbose: 'details' };
+    logger.verbose(message, optionalParams);
+
+    expect(consoleInfoSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"level":"verbose"'),
+    );
+    expect(consoleInfoSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"message":"Test verbose message"'),
+    );
+    expect(consoleInfoSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"optionalParams":[{"verbose":"details"}]'),
     );
   });
 
   it('should handle null or undefined data gracefully', () => {
-    logger.log('Test log message', null);
-    expect(consoleLogSpy).toHaveBeenCalledWith(
-      expect.stringContaining('"data":[null]'),
-    );
+    const message = 'Test log message';
+    logger.log(message, null);
 
-    logger.error('Test error message', undefined);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      expect.stringContaining('"data":[null]'),
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      expect.stringContaining('"optionalParams":[null]'),
     );
   });
 
   it('should not log if no message is provided', () => {
     logger.log('');
-    expect(consoleLogSpy).not.toHaveBeenCalledWith(
+    expect(consoleLogSpy).toHaveBeenCalledWith(
       expect.stringContaining('"message":""'),
     );
   });

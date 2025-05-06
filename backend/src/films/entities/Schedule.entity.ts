@@ -1,10 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsString } from 'class-validator';
 import { FilmsEntity } from './Films.entity';
 
 @Entity('schedules')
 export class ScheduleEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -27,11 +27,12 @@ export class ScheduleEntity {
   @IsNumber()
   price: number;
 
-  @Column()
-  taken: string;
+  @Column('text', { array: true, default: [] })
+  @IsArray()
+  taken: string[];
 
   @ManyToOne(() => FilmsEntity, (film) => film.schedule, {
-    cascade: true,
+    cascade: ['insert', 'update', 'remove'],
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
