@@ -39,7 +39,7 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./backend/test/prac.init.sql:/docker-entrypoint-initdb.d/prac.init.sql
+      - ./backend/test/prac.init.sql:/docker-entrypoint-initdb.d/prac.init.sql:ro
     env_file:
       - backend/.env
     networks:
