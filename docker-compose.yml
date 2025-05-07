@@ -1,0 +1,87 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    image: ghcr.io/${OWNER}/film-react-nest:frontend
+    restart: unless-stopped
+    volumes:
+      - frontend_volume:/app/dist
+    networks:
+      - app_network
+    env_file:
+      - frontend/.env
+    ports:
+      - "80:80"
+
+  backend:
+    build: ./backend
+    container_name: backend
+    image: ghcr.io/${OWNER}/film-react-nest:backend
+    restart: unless-stopped
+    env_file:
+      - backend/.env
+    depends_on:
+      - db
+    networks:
+      - app_network
+    ports:
+      - "3000:3000"
+
+  db:
+    image: postgres
+    container_name: postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/test/prac.init.sql:/docker-entrypoint-initdb.d/prac.init.sql
+    env_file:
+      - backend/.env
+    networks:
+      - app_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "8080:80"
+    networks:
+      - app_network
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    image: ghcr.io/${OWNER}/film-react-nest:nginx
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    volumes:
+      - frontend_volume:/usr/share/nginx/html
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app_network
+
+networks:
+  app_network:
+
+volumes:
+  postgres_data:
+    name: postgres_data
+    external: false
+  pgadmin_data:
+    name: pgadmin_data
+    external: false
+  frontend_volume:
+    name: frontend_volume
+    external: false
