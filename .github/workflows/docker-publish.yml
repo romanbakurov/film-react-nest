@@ -83,15 +83,6 @@ jobs:
             source: "docker-compose.yml"
             target: "~/film-react-nest"
 
-        - name: Copy .env file to server
-          uses: appleboy/scp-action@v0.1.5
-          with:
-            host: ${{ secrets.SERVER_IP }}
-            username: ${{ secrets.SERVER_USER }}
-            key: ${{ secrets.SERVER_SSH_KEY }}
-            source: ".env"
-            target: "~/film-react-nest"
-
         - name: SSH into server and deploy
           uses: appleboy/ssh-action@v0.1.5
           with:
