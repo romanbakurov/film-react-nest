@@ -33,6 +33,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Проверка содержимого папки frontend
+      - name: List files in frontend directory
+        run: ls -l ./frontend
+
       # FRONTEND
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
