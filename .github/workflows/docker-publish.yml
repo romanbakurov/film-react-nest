@@ -64,7 +64,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./nginx
-          file: ./nginx/Dockerfile
+          file: .frontend/nginx/Dockerfile
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/film-react-nest:nginx-latest
