@@ -1,6 +1,6 @@
 FROM nginx:stable-alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY ../frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Копируем фронтенд статику из volume (монтируется docker-compose)
 VOLUME ["/usr/share/nginx/html"]
