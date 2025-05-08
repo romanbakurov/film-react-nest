@@ -1,5 +1,8 @@
 services:
   frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     image: ghcr.io/${OWNER}/film-react-nest:frontend-latest
     container_name: frontend
     restart: unless-stopped
@@ -13,6 +16,9 @@ services:
       - "80:80"
 
   backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     image: ghcr.io/${OWNER}/film-react-nest:backend-latest
     container_name: backend
     restart: unless-stopped
@@ -56,6 +62,9 @@ services:
       - app_network
 
   nginx:
+    build:
+      context: ./frontend/nginx
+      dockerfile: Dockerfile
     image: ghcr.io/${OWNER}/film-react-nest:nginx-latest
     container_name: nginx
     restart: unless-stopped

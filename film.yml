@@ -1,7 +1,7 @@
 openapi: 3.0.0
 servers:
   - description: Yandex.Practicum Stub API
-    url: http://localhost:3000/api/afisha
+    url: http://api.films.nomorepartiessbs.ru/api/afisha
 info:
   description: Yandex Practicum «Film!» project api
   version: "1.0.0"
