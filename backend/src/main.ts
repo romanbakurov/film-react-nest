@@ -32,7 +32,10 @@ async function bootstrap() {
       logger,
     });
     app.setGlobalPrefix('api/afisha');
-    app.enableCors();
+    app.enableCors({
+      origin: 'http://films.nomorepartiessbs.ru',
+      credentials: true,
+    });
     app.useGlobalPipes(
       new ValidationPipe({ whitelist: true, transform: true }),
     );
