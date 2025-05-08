@@ -63,7 +63,7 @@ jobs:
       - name: Build and push nginx image
         uses: docker/build-push-action@v5
         with:
-          context: ./nginx
+          context: ./frontend/nginx
           file: ./frontend/nginx/Dockerfile
           push: true
           tags: |
