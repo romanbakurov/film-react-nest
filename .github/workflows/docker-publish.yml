@@ -78,14 +78,24 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v3
 
-        - name: Copy docker-compose.yml to server
+#        - name: Copy docker-compose.yml to server
+#          uses: appleboy/scp-action@v0.1.5
+#          with:
+#            host: ${{ secrets.SERVER_IP }}
+#            username: ${{ secrets.SERVER_USER }}
+#            key: ${{ secrets.SERVER_SSH_KEY }}
+#            source: "docker-compose.yml"
+#            target: "~/film-react-nest"
+
+        - name: Copy full project to server
           uses: appleboy/scp-action@v0.1.5
           with:
             host: ${{ secrets.SERVER_IP }}
             username: ${{ secrets.SERVER_USER }}
             key: ${{ secrets.SERVER_SSH_KEY }}
-            source: "docker-compose.yml"
+            source: "."  # весь репозиторий
             target: "~/film-react-nest"
+            strip_components: 0
 
         - name: SSH into server and deploy
           uses: appleboy/ssh-action@v0.1.5
