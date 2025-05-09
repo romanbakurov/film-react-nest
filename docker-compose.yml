@@ -25,13 +25,13 @@ services:
     env_file:
       - backend/.env
     depends_on:
-      - db
+      - postgres_db
     networks:
       - app_network
     ports:
       - "3000:3000"
 
-  db:
+  postgres_db:
     image: postgres
     container_name: postgres_db
     restart: unless-stopped
