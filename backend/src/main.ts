@@ -31,7 +31,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
       logger,
     });
-    // app.setGlobalPrefix('api/afisha');
+    app.setGlobalPrefix('api/afisha');
     app.enableCors({
       origin: [
         'http://films.nomorepartiessbs.ru',
