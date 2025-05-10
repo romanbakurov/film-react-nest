@@ -11,6 +11,14 @@ export class FilmsService {
 
   async findById(id: string) {
     const film = await this.filmsRepository.findById(id);
+
+    if (!film) {
+      return {
+        total: 0,
+        items: [],
+      };
+    }
+
     return {
       total: film.schedule.length,
       items: film.schedule,

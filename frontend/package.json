@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "component": "sh ./bin/copy.sh Component src/components"
+    "component": "sh ./bin/copy.sh Component src/components",
+    "deploy": "npm run build && scp -Сr ./build/* rio@158.160.169.47:/home/rio/film-react-nest/frontend"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -32,7 +33,7 @@
     "@typescript-eslint/eslint-plugin": "^7.13.1",
     "@typescript-eslint/parser": "^7.13.1",
     "@vitejs/plugin-react": "^4.3.1",
-    "eslint": "^8.57.0",
+    "eslint": "^8.57.1",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "eslint-plugin-storybook": "^0.8.0",
