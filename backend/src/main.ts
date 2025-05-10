@@ -33,7 +33,10 @@ async function bootstrap() {
     });
     // app.setGlobalPrefix('api/afisha');
     app.enableCors({
-      origin: 'http://films.nomorepartiessbs.ru',
+      origin: [
+        'http://films.nomorepartiessbs.ru',
+        'https://films.nomorepartiessbs.ru',
+      ],
       credentials: true,
     });
     app.useGlobalPipes(
