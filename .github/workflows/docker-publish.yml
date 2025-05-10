@@ -104,6 +104,10 @@ jobs:
             username: ${{ secrets.SERVER_USER }}
             key: ${{ secrets.SERVER_SSH_KEY }}
             script: |
+              # Останавливаем и удаляем старый контейнер
+              docker stop postgres_db || true
+              docker rm postgres_db || true
+            
               cd ~/film-react-nest
               docker-compose down
               docker-compose pull
