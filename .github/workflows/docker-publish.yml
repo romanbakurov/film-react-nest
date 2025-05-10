@@ -1,4 +1,4 @@
-name: Build and Push Docker Images
+name: Docker Build and Deploy
 
 on:
   push:
@@ -107,6 +107,18 @@ jobs:
               cd ~/film-react-nest
               docker-compose down
               docker-compose pull
+              docker-compose up -d --build
+              
+              echo "🔻 Stopping and removing containers..."
+              docker-compose down --volumes --remove-orphans
+
+              echo "🧹 Removing custom Docker network if exists..."
+              docker network rm film-react-nest_app_network || true
+
+              echo "🔄 Pulling latest images..."
+              docker-compose pull
+
+              echo "🚀 Rebuilding and starting containers..."
               docker-compose up -d --build
 
         # Шаг для проверки состояния контейнеров после деплоя
