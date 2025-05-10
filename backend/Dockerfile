@@ -16,7 +16,6 @@ WORKDIR /app
 
 # Только необходимые файлы
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/public ./public
 COPY package.json ./
 
