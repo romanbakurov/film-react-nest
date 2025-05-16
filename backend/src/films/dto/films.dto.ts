@@ -1,3 +1,11 @@
+export class GetFilmsDTO {
+  page: number;
+  size: number;
+  total: number;
+
+  items: GetFilmDTO[];
+}
+
 export class GetFilmDTO {
   id: string;
   rating: number;
@@ -11,12 +19,19 @@ export class GetFilmDTO {
   schedule: GetScheduleDTO[];
 }
 
-export type GetScheduleDTO = {
+export class GetScheduleDTO {
   id: string;
   daytime: string;
-  hall: string;
+  hall: number;
   rows: number;
   seats: number;
   price: number;
   taken: string[];
-};
+}
+
+export class GetSchedulesDTO {
+  total: number;
+  items: GetScheduleDTO[];
+}
+
+export class PostFilmDTO extends GetFilmDTO {}

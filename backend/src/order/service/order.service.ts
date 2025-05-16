@@ -1,47 +1,22 @@
-import { ConflictException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Order } from '../schemas/order.schema';
-import { Model } from 'mongoose';
-import { FilmsRepository } from '../../repository/films.repository';
-import { OrderDto, TicketDto } from '../dto/order.dto';
+import { Injectable } from '@nestjs/common';
+import { PostOrderTicketDto } from '../dto/order.dto';
+import { FilmsService } from '../../films/service/films.service';
+import { PostFilmDTO } from '../../films/dto/films.dto';
 
 @Injectable()
 export class OrderService {
-  constructor(
-    @InjectModel(Order.name) private readonly orderModel: Model<Order>,
-    private readonly filmsRepository: FilmsRepository,
-  ) {}
+  constructor(private filmsService: FilmsService) {}
 
-  async orderTickets(
-    createOrder: OrderDto,
-  ): Promise<{ total: number; items: TicketDto[] }> {
-    const { tickets } = createOrder;
-
-    const order = new this.orderModel({ total: tickets.length, tickets });
-
-    for (const ticket of tickets) {
-      const { film: filmId, session: sessionId, row, seat, daytime } = ticket;
-
-      // Получить занятые места
-      const film = await this.filmsRepository.findById(filmId);
-      const session = film.schedule.find((item) => item.id === sessionId);
-
-      // Уникальный ключ для этого места
-      const seatKey = `${row}:${seat}`;
-
-      // Проверить, занято ли уже место
-      if (session.taken.includes(seatKey)) {
-        throw new ConflictException(`${daytime} место ${seatKey}  уже занято`);
-      }
-
-      // Добавить место в список занятых мест
-      session.taken.push(seatKey);
-      await film.save();
-    }
-
-    // Сохранить заказ и вернуть JSON
-    return order.save().then((doc) => {
-      return { total: doc.tickets.length, items: doc.tickets };
+  async newOrders(orders: PostOrderTicketDto[]): Promise<PostOrderTicketDto[]> {
+    const filmId = orders[0].film;
+    const film = await this.filmsService.findOne(filmId);
+    orders.forEach((order) => {
+      const schedule = film.schedule.find((sch) => sch.id === order.session);
+      const seatKey = `${order.row}:${order.seat}`;
+      if (schedule.taken.indexOf(seatKey) > 0) throw new Error('already taken');
+      schedule.taken.push(seatKey);
     });
+    await this.filmsService.save(<PostFilmDTO>film);
+    return orders;
   }
 }

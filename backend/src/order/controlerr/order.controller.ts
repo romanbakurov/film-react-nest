@@ -1,13 +1,18 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { OrderDto } from '../dto/order.dto';
+import { NewOrderDTO, PostOrderDto } from '../dto/order.dto';
 import { OrderService } from '../service/order.service';
+import { JoiPipe } from 'nestjs-joi';
 
 @Controller('order')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(private orderService: OrderService) {}
 
   @Post()
-  async orderTickets(@Body() orderDto: OrderDto) {
-    return await this.orderService.orderTickets(orderDto);
+  async postOrder(@Body(JoiPipe) body: PostOrderDto): Promise<NewOrderDTO> {
+    const orders = await this.orderService.newOrders(body.tickets);
+    return <NewOrderDTO>{
+      total: orders.length,
+      items: orders,
+    };
   }
 }
