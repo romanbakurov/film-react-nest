@@ -1,36 +1,54 @@
-# FILM!
+# 🎬 Film React-Nest App
 
-## Установка
+Full-stack learning project built with **React, NestJS, TypeScript, and PostgreSQL**.
 
-### MongoDB
+---
 
-Установите MongoDB скачав дистрибутив с официального сайта или с помощью пакетного менеджера вашей ОС. Также можно воспользоваться Docker (см. ветку `feat/docker`.
+## 🧩 Tech Stack
 
-Выполните скрипт `test/mongodb_initial_stub.js` в консоли `mongo`.
+- Frontend: React
+- Backend: NestJS
+- Database: PostgreSQL
+- Language: TypeScript
+- Tools: Git, Docker (optional), VS Code
 
-### Бэкенд
+---
 
-Перейдите в папку с исходным кодом бэкенда
+## ⭐ Features
 
-`cd backend`
+This app allows users to:
 
-Установите зависимости (точно такие же, как в package-lock.json) помощью команд
+- View a list of films
+- See film details
+- Book or select film seats *(if implemented)*
+- REST API using NestJS
+- Persistent storage with PostgreSQL
 
-`npm ci` или `yarn install --frozen-lockfile`
+---
 
-Создайте `.env` файл из примера `.env.example`, в нём укажите:
+## 📁 Project Structure
+```
+film-react-nest/
+├── backend/   – NestJS API
+├── frontend/  – React application
+├── README.md
+````
 
-* `DATABASE_DRIVER` - тип драйвера СУБД - в нашем случае это `mongodb` 
-* `DATABASE_URL` - адрес СУБД MongoDB, например `mongodb://127.0.0.1:27017/practicum`.  
+---
 
-MongoDB должна быть установлена и запущена.
+## 🚀 Installation & Setup
 
-Запустите бэкенд:
+### 🧠 Backend
 
-`npm start:debug`
+```bash
+cd backend
+npm install
+npm run start:dev
+```
 
-Для проверки отправьте тестовый запрос с помощью Postman или `curl`.
-
-
-
-
+### 🧠 Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
