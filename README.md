@@ -52,3 +52,19 @@ cd frontend
 npm install
 npm run dev
 ```
+
+## 🧠 What I Learned
+
+- Building REST APIs with NestJS
+- Connecting frontend and backend
+- Working with PostgreSQL
+- Basic project structure for full-stack apps
+- Handling async operations and errors
+
+## 📈 Future Improvements
+
+- Authentication (JWT)
+- Role-based access
+- Pagination and filtering
+- UI improvements
+- Deployment
